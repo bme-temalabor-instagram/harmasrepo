@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Instafakk</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!--p th:text="'id: ' + ${p.url}" /-->
+<!--img th:src="${p.url}" alt="pic" /-->
+
+<p>
+
+    <form action="#" th:action="@{/index}" method="post" enctype="multipart/form-data">
+    <input id="fileupload" name="image" type="file" accept="image/*"/>
+    <p>
+        Name:
+        <input name="title" type="text"/>
+    </p>
+    <p>
+        <input type="submit" value="Submit"/>
+    </p>
+    </form>
+
+</p>
+
+
+</body>
+</html>
