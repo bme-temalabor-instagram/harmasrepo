@@ -47,6 +47,7 @@ public class GreetingController {
                                   @RequestParam(value = "title", required = true) String title,
                                   Model model)
     {
+        //image url
         String url;
         picture p = new picture();
 
