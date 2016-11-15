@@ -1,4 +1,4 @@
-package hello;
+package instagram.hello;
 
 public class Greeting {
 

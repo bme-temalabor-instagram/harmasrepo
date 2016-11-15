@@ -1,9 +1,8 @@
-package hello;
+package instagram.hello;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
-import entities.Picture;
+import instagram.entities.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import repositories.PictureRepository;
+import instagram.repositories.PictureRepository;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

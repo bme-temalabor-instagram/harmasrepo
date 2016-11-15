@@ -1,4 +1,4 @@
-package entities;
+package instagram.entities;
 
 
 import javax.persistence.Entity;
