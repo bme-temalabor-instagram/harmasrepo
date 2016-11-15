@@ -28,5 +28,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.4.5'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'com.google.apis:google-api-services-oauth2:v1-rev124-1.22.0'
 }
 
