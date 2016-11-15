@@ -30,17 +30,6 @@ public class GreetingController {
             "api_key", "696585694432693",
             "api_secret", "fCyfZITBxypoZoyU_0Il5pL_uD8"));
 
-    @GetMapping("/greeting")
-    public String greetingForm(Model model) {
-        model.addAttribute("greeting", new Greeting());
-        return "greeting";
-    }
-
-    @PostMapping("/greeting")
-    public String greetingSubmit(@ModelAttribute Greeting greeting) {
-        return "result";
-    }
-
     @GetMapping("/index")
     public String index(Model model) {
 
