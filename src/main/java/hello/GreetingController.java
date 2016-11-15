@@ -3,6 +3,8 @@ package hello;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
+import entities.Picture;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import repositories.PictureRepository;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +21,10 @@ import java.util.Map;
 
 @Controller
 public class GreetingController {
+
+    @Autowired
+    private PictureRepository pictureRepository;
+
 
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "dlqdldxbw",
@@ -47,9 +53,9 @@ public class GreetingController {
                                   @RequestParam(value = "title", required = true) String title,
                                   Model model)
     {
-        //image url
-        String url;
-        picture p = new picture();
+        //image URL
+        String URL;
+        Picture picture = new Picture();
 
         Map options = ObjectUtils.asMap(
                 "public_id", "temp/" + new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()) + "-" + title
@@ -57,14 +63,14 @@ public class GreetingController {
 
         try {
             Map uploadResult = cloudinary.uploader().upload(uploadedPhoto.getBytes(), options);
-            url = (String) uploadResult.get("url");
+            URL = (String) uploadResult.get("URL");
 
+            picture.setID((String)uploadResult.get("public_id") );
+            picture.setName(title);
+            pictureRepository.save(picture);
 
-            p.setUrl(cloudinary.url().format("jpg")
-                    .transformation(new Transformation().width(250).height(168).crop("fit"))
-                    .generate((String)uploadResult.get("public_id") ));
+            model.addAttribute("picture", picture);
 
-            model.addAttribute("p", p);
 
         } catch (IOException e) {
             e.printStackTrace();
