@@ -1,6 +1,7 @@
 package instagram.hello;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import instagram.entities.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import instagram.repositories.PictureRepository;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -63,8 +66,49 @@ public class GreetingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "index";
+        return "redirect:pictures";
 
+    }
+
+    @GetMapping("/pictures")
+    public String loadPictures(Model model) {
+        List<Picture> pictures = pictureRepository.findAll();
+
+        List<PhotoWithUrl> urls = new ArrayList<>();
+        for (Picture p : pictures) {
+            urls.add(new PhotoWithUrl(p, new Transformation().width(300).height(300).crop("fill")));
+        }
+
+        model.addAttribute("images",urls);
+
+        return "pictures";
+    }
+
+    public class PhotoWithUrl {
+        private Picture photo;
+        private String url;
+
+        public PhotoWithUrl(Picture photo, Transformation transformation) {
+            this.photo = photo;
+            this.url = cloudinary.url()
+                    .transformation(transformation).imageTag(photo.getID());
+        }
+
+        public Picture getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(Picture photo) {
+            this.photo = photo;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 
 }

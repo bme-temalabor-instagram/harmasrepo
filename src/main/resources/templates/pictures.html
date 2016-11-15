@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pictures</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+</body>
+    <div>
+        <div th:each="image : ${images}">
+            <article>
+                <div th:utext="${image.url}"></div>
+                <div th:text="${image.photo.name}"></div>
+            </article>
+        </div>
+    </div>
+</html>
