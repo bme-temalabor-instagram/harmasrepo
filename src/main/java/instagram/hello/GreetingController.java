@@ -3,7 +3,9 @@ package instagram.hello;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import instagram.entities.Picture;
+import oracle.jrockit.jfr.StringConstantPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,7 @@ public class GreetingController {
     private PictureRepository pictureRepository;
 
 
-    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+    private Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "dlqdldxbw",
             "api_key", "696585694432693",
             "api_secret", "fCyfZITBxypoZoyU_0Il5pL_uD8"));
@@ -44,15 +46,17 @@ public class GreetingController {
                                   @RequestParam(value = "title", required = true) String title,
                                   Model model)
     {
-        //image URL
         String URL;
         Picture picture = new Picture();
 
-        Map options = ObjectUtils.asMap(
-                "public_id", "temp/" + new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()) + "-" + title
-        );
-
         try {
+
+            Map options = ObjectUtils.asMap(
+                "public_id", "temp/" + new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()) + "-" + title/*,
+                    "allowed_formats", new String[]{"jpg","png","bmp"}*/
+            );
+
+
             Map uploadResult = cloudinary.uploader().upload(uploadedPhoto.getBytes(), options);
             URL = (String) uploadResult.get("URL");
 
@@ -65,6 +69,7 @@ public class GreetingController {
 
         } catch (IOException e) {
             e.printStackTrace();
+            return "redirect:error";
         }
         return "redirect:pictures";
 
@@ -83,6 +88,13 @@ public class GreetingController {
 
         return "pictures";
     }
+
+    @GetMapping("/error")
+    public String error(Model model){
+        return "redirect:index";
+    }
+
+
 
     public class PhotoWithUrl {
         private Picture photo;

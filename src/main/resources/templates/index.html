@@ -5,20 +5,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<!--p th:text="'id: ' + ${p.url}" /-->
-<!--img th:src="${p.url}" alt="pic" /-->
 
 <p>
 
     <form action="#" th:action="@{/index}" method="post" enctype="multipart/form-data">
-    <input id="fileupload" name="image" type="file" accept="image/*"/>
+
+    <input id="fileupload" name="image" type="file" accept="image/*" required="required"/>
     <p>
         Name:
-        <input name="title" type="text"/>
+        <input name="title" type="text" required="required"/>
     </p>
     <p>
         <input type="submit" value="Submit"/>
     </p>
+
     </form>
 
 </p>
