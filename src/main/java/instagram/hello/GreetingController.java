@@ -89,13 +89,6 @@ public class GreetingController {
         return "pictures";
     }
 
-    @GetMapping("/error")
-    public String error(Model model){
-        return "redirect:index";
-    }
-
-
-
     public class PhotoWithUrl {
         private Picture photo;
         private String url;
