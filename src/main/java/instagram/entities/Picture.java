@@ -3,6 +3,9 @@ package instagram.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Picture {
@@ -11,6 +14,11 @@ public class Picture {
     private String ID;
 
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    @NotNull
+    private User user;
 
     public Picture() {}
 
@@ -33,5 +41,13 @@ public class Picture {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

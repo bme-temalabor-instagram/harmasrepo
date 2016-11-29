@@ -5,8 +5,10 @@ import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import instagram.entities.Picture;
+import instagram.entities.User;
 import oracle.jrockit.jfr.StringConstantPool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ public class GreetingController {
 
     @Autowired
     private PictureRepository pictureRepository;
+
 
 
     private Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -62,6 +65,20 @@ public class GreetingController {
 
             picture.setID((String)uploadResult.get("public_id") );
             picture.setName(title);
+
+            /*Map<String,Object> asd = model.asMap();
+            picture.setUser(((User)asd.get("current_user")));
+            boolean test = model.containsAttribute("current_user");
+            Map<String,String> userinfo = LoginController.facebook.fetchObject("me", Map.class, "first_name");
+
+            picture.setUser(userinfo.get("first_name"));*/
+            Map<String,String> userinfo = LoginController.facebook.fetchObject("me", Map.class, "first_name");
+            User current_user = new User();
+            current_user.setName(userinfo.get("first_name"));
+            current_user.setUserID(userinfo.get("id"));
+            picture.setUser(current_user);
+
+
             pictureRepository.save(picture);
 
             model.addAttribute("picture", picture);
@@ -69,7 +86,7 @@ public class GreetingController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:error";
+          //  return "redirect:error";
         }
         return "redirect:pictures";
 
